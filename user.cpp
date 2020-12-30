@@ -6,52 +6,45 @@
 
 using namespace std;
 
-//helper to set user info for readability
-void setUserInfo(string tempName, string tempCard, int tempBal, int tempPin, struct user_info* temp) {
-    temp->name = tempName;
-    temp->cardNo = tempCard;
-    temp->balance = tempBal;
-    temp->pin = tempPin;
+User::User() {
 }
 
-/*
- *  Function to load users from the file
- *  @param map : destination to load user_info structs
- */
-void loadUsers(unordered_map<string, struct user_info*> map) {
-    FILE *fp = fopen(USER_FILE, "r");
-    int counter = 0;
-    while(!feof(fp)) {
-        struct user_info *temp = (struct user_info*) malloc(sizeof(struct user_info));
+User::User(string name, string cardNo, string pin, int balance) {
+    this->name = name;
+    this->cardNo = cardNo;
+    this->pin = pin;
+    this->balance = balance;
+}
 
-        // Reading user info
-        fscanf(fp, "%s %s %i %i\n", &temp->name, &temp->cardNo, &temp->balance, &temp->pin);
-        printf("%s %s %i %i\n", &temp->name, &temp->cardNo, &temp->balance, &temp->pin);
+User::~User() {
+}
 
-        
-        //Setting User info
-        //setUserInfo(tempName, tempCard, tempBal, tempPin, &temp);
-        map.insert(make_pair(temp->cardNo, temp));
+bool User::check_pin(string pin) {
+    if (this->pin == pin) {
+        return true;
     }
-    fclose(fp);
+    return false;
 }
 
-/*
- *  Function to authenticate user access to balance(withdrawal, etc)
- *  @param map : the map with user info loaded
- *  @param cardNo : current card trying to access user info
- *  @param pin : pin number the user entered
- *  @param auth : will become 1 if the authentication was successful
- */
-void authenticate(unordered_map<char*, struct user_info*> map, char* cardNo, int pin, int* auth) {
-    /*unordered_map<unsigned, struct user_info> map;
-    if (cur.pin == pin) {
-        cout << "authentication successful!" << endl;
-        *auth = 1;
-    } else {
-        cout << "authentication failed!" << endl;
-        *auth = 0;
-    }*/
-    return;
+int User::getBalance() {
+    return this->balance;
 }
-void adjustBalance(int amount, bool auth);
+
+string User::getPin() {
+    return this->pin;
+}
+
+void User::adjBalance(int amount) {
+    this->balance += amount;
+}
+
+void User::withdraw(int amount) {
+    if (this->balance - amount < 0) {
+        cout << "Insufficient funds." << endl;
+        return;
+    }
+    else {
+        this->balance -= amount;
+        cout << "Your withdrawal of $" << amount << " was successful.\nRemaining balance : $" << this->balance << endl;
+    }
+}

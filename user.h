@@ -10,19 +10,46 @@
 using namespace std;
 
 
-struct user_info {
-    string name;
-    int balance;
+class User {
+
+private:
+    string pin;
     string cardNo;
-    int pin;
+    int balance;
+
+public:
+    string name;
+    User();
+    User(string name, string cardNo, string pin, int balance);
+    ~User();
+
+    /*
+     *  Checking PIN entry with User info.
+     *  @param pin = user entered PIN
+     *  @returns whether the PIN was correct
+     */
+    bool check_pin(string pin);
+    /*
+     *  @returns the current balance of the user
+     */
+    int getBalance();
+    /*
+     *  @returns the Pin of current user
+     */
+    string getPin();
+    /*
+     *  Adjusts the valance of the user by the given amount for deposit
+     *  @param amount = the amount of adjustment to be made(positive for it will be the count of money)
+     */
+    void adjBalance(int amount);
+    /*
+     *  Withdraws a certain amount of money from account
+     *  @param amount = the amount of adjustment to be made(positive for it will be the count of money)
+     */
+    void withdraw(int amount);
+    
+
 };
-
-void loadUsers(unordered_map<string, struct user_info*> map);
-
-void authenticate(unordered_map<string, struct user_info*> map, long int cardNo, int pin, int* auth);
-
-void adjustBalance(int amount, bool auth);
-
 
 
 
