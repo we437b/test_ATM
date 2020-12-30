@@ -110,13 +110,16 @@ void main(void) {
             }
         }
 
-        ifstream infs(USER_INFO);
 
+        // Getting all data from file for editing
+
+        ifstream infs(USER_INFO);
         vector<string> data;
         string temp;
         int rel = 0;
         while (!infs.eof()) {
             infs >> temp;
+            //edits the only for the current user data
             if (rel == 0) {
                 if (temp == cardIn) {
                     rel += 2;
@@ -134,6 +137,7 @@ void main(void) {
         }
         infs.close();
         
+        //Updating user data file
         ofstream ofs(USER_INFO);
         string space = " ";
         data.pop_back();
